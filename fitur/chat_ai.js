@@ -1,6 +1,6 @@
 const { Configuration, OpenAIApi } = require('openai');
 
-const API_KEY = '';
+const API_KEY = 'isi';
 
 async function chatAIhandler(pesanIsiCommand) {
   async function ChatGPTRequest(teksKeOpenAI) {
