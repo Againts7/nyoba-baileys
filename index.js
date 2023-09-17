@@ -13,6 +13,10 @@ const {
 } = require('./fitur/exif');
 const chatAIhandler = require('./fitur/chat_ai');
 const { ytmp3, ytmp4 } = require('./fitur/ytdl');
+const download = require('./fitur/fb');
+const download2 = require('./fitur/fb1');
+const cariBuff = require('./fitur/listbuff');
+const premUser = require('./config');
 
 async function connectToWhatsApp() {
   const { state, saveCreds } = await useMultiFileAuthState('auth_info_baileys');
@@ -71,6 +75,8 @@ async function connectToWhatsApp() {
         const pesanIsiCommand = pesanSplit.slice(1).join(' '); // ini untuk mengambil teks sisanya (apa itu?)
         const apaPesanDiGrup = jid.includes('@g.us');
         const no = apaPesanDiGrup ? m.key.participant.split('@')[0] : m.key.remoteJid.split('@')[0];
+        const isPrem = premUser.includes(no);
+        console.log(isPrem);
 
         if (pesanMasuk.startsWith(prefix)) {
           let tipePesanReply = '';
@@ -161,6 +167,31 @@ async function connectToWhatsApp() {
                 msgReact(sock, jid, m, '⏳');
                 // balas = { video: fs.readFileSync('./download/video/AAKsX-uqinU.mp4') };
                 balas = { video: fs.readFileSync(await ytmp4(pesanIsiCommand)) };
+                break;
+
+              case 'fb':
+                if (pesanIsiCommand.length < 1) {
+                  balas = { text: 'donlot vidio dari pesbuk' };
+                  return;
+                }
+                msgReact(sock, jid, m, '⏳');
+                balas = { video: fs.readFileSync(await download(pesanIsiCommand)) };
+                break;
+              case 'fb2':
+                if (pesanIsiCommand.length < 1) {
+                  balas = { text: 'donlot vidio dari pesbuk' };
+                  return;
+                }
+                msgReact(sock, jid, m, '⏳');
+                balas = { video: fs.readFileSync(await download2(pesanIsiCommand)) };
+                break;
+
+              case 'buff': case 'listbuff':
+                if (pesanIsiCommand.length < 1) {
+                  balas = { text: 'nyoba buat list buff' };
+                  return;
+                }
+                balas = { text: cariBuff(pesanIsiCommand, isPrem) };
                 break;
 
               default:

@@ -14,15 +14,17 @@
     "@adiwajshing/keyed-db": "^0.2.4",
     "@hapi/boom": "^10.0.1",
     "@whiskeysockets/baileys": "^6.1.0",
+    "@xaviabot/fb-downloader": "^1.0.10",
     "axios": "^1.4.0",
     "cheerio": "^1.0.0-rc.12",
+    "fb-info-video": "^1.0.2",
     "fluent-ffmpeg": "^2.1.2",
     "fs": "^0.0.1-security",
+    "jsdom": "^22.1.0",
     "node-webpmux": "^3.1.7",
     "nodemon": "^2.0.22",
     "openai": "^3.2.1",
     "qrcode-terminal": "^0.12.0",
-    "wa-sticker-formatter": "^4.4.4",
     "ytdl-core": "^4.11.4"
   },
   "devDependencies": {

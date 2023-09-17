@@ -1,5 +1,10 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
+const fs = require('fs');
+
+const dataPilihanLvling = JSON.parse(fs.readFileSync('./fitur/tambahan/data-lvling.json', 'utf8'));
+const popularBossName = dataPilihanLvling.dataBoss;
+const popularMiniBossName = dataPilihanLvling.dataMini;
 
 async function fetchData(url) {
   try {
@@ -38,7 +43,7 @@ async function fetchData(url) {
       const expElement = $(element).children('.level-col-3');
       const bossExp = expElement.find('p:last-child').text().replace(/[\t\n]/g, '').replace('(0 break)', '\b');
 
-      if (index < 5) {
+      if (index < 10) {
         bossList.push({
           level, bossName, bossLocation, bossExp,
         });
@@ -52,7 +57,7 @@ async function fetchData(url) {
       const bossLocation = bossElement.find('p:last-child').text().replace(/[\t\n]/g, '');
       const bossExp = $(element).children('.level-col-3').text().replace(/[\t\n]/g, '');
 
-      if (index < 5) {
+      if (index < 6) {
         miniBossList.push({
           level, bossName, bossLocation, bossExp,
         });
@@ -67,49 +72,131 @@ async function fetchData(url) {
 
 async function leveling(pesanIsiCommand) {
   try {
-    const cari = pesanIsiCommand;
-    const url = `https://coryn.club/leveling.php?lv=${cari}`;
+    const pisah = pesanIsiCommand.toLowerCase().split(' ');
+    if (pesanIsiCommand.startsWith('add-boss') || pesanIsiCommand.startsWith('add-mini')) {
+      if (pesanIsiCommand.startsWith('add-boss')) {
+        popularBossName.push(pisah[1]);
+        fs.writeFileSync('./fitur/tambahan/data-lvling.json', JSON.stringify(dataPilihanLvling));
+        return 'udah';
+      }
+      popularMiniBossName.push(pisah[1]);
+      fs.writeFileSync('./fitur/tambahan/data-lvling.json', JSON.stringify(dataPilihanLvling));
+      return 'udah';
+    }
+    const lvl = pisah[0];
+    const monsType = pisah[1];
+    const url = `https://coryn.club/leveling.php?lv=${lvl}`;
     const [bossList, miniBossList, expRequired] = await fetchData(url);
-
-    const maxResults = 5; // Batasan jumlah hasil yang ingin ditampilkan
-
-    // Menampilkan hasil dari bossList
     let bossListString = '';
-    bossListString += `_*List leveling ${pesanIsiCommand}* (${expRequired})_\n`;
-    bossListString += '\n*BOSS LIST* _(0 break)_\n';
-
-    await bossList.slice(0, maxResults).forEach((item) => {
-      const level = item.level.trim();
-      const boss = item.bossName.trim();
-      const location = item.bossLocation.trim();
-      const exp = item.bossExp.trim();
-
-      bossListString += '--------------------------------------------------------------\n';
-      bossListString += `*Boss*: ${boss} ${level}\n*Exp*: ${exp}\n`;
-      bossListString += `*Location*: _${location}_\n`;
-    });
-    bossListString += '\n';
-    // Menampilkan hasil dari miniBossList
     let miniBossListString = '';
-    miniBossListString += '*MINI BOSS LIST*\n';
 
-    await miniBossList.slice(0, maxResults).forEach((item) => {
-      const level = item.level.trim();
-      const boss = item.bossName.trim();
-      const location = item.bossLocation.trim();
-      const exp = item.bossExp.trim();
+    if (monsType === 'boss' || monsType === 'miniboss') {
+      if (monsType === 'miniboss') {
+        miniBossListString += `_*List MiniBoss for ${lvl}*_\n`;
+        miniBossList.forEach((item) => {
+          const level = item.level.trim();
+          const boss = item.bossName.trim();
+          const location = item.bossLocation.trim();
+          const exp = item.bossExp.trim();
 
-      miniBossListString += '--------------------------------------------------------------\n';
-      miniBossListString += `*Boss*: ${boss} ${level}\n*Exp*: ${exp}\n`;
-      miniBossListString += `*Location*: _${location}_\n`;
-    });
+          miniBossListString += '--------------------------------------------------------------\n';
+          miniBossListString += `*Boss*: ${boss} ${level}\n*Exp*: ${exp}\n`;
+          miniBossListString += `*Location*: _${location}_\n`;
+        });
+      }
+      if (monsType === 'boss') {
+        bossListString += `_*List Boss for ${lvl}*_\n`;
+        bossList.slice(0, 7).forEach((item) => {
+          const level = item.level.trim();
+          const boss = item.bossName.trim();
+          const location = item.bossLocation.trim();
+          const exp = item.bossExp.trim();
 
+          bossListString += '--------------------------------------------------------------\n';
+          bossListString += `*Boss*: ${boss} ${level}\n*Exp*: ${exp}\n`;
+          bossListString += `*Location*: _${location}_\n`;
+        });
+      }
+    }
+    if (monsType === undefined) {
+      const favoritBossArray = bossList.filter((boss) => popularBossName
+        .some((name) => boss.bossName.toLowerCase().includes(name)));
+      console.log(favoritBossArray);
+      bossListString += `*Beberapa pilihan buat digebukin*\n*Leveling*: ${lvl} _(${expRequired})_\n`;
+      bossListString += '\n*Ini Boss*\n';
+      // Mencetak hasilnya
+      if (favoritBossArray.length > 0) {
+        favoritBossArray.forEach((item) => {
+          const level = item.level.trim();
+          const boss = item.bossName.trim();
+          const location = item.bossLocation.trim();
+          const exp = item.bossExp.trim();
+          bossListString += '--------------------------------------------------------------\n';
+          bossListString += `*Boss*: ${boss} ${level}\n*Exp*: ${exp}\n`;
+          bossListString += `*Location*: _${location}_\n`;
+        });
+      } else {
+        bossListString += 'yntkts\n';
+      }
+
+      miniBossListString += '\n*Ini Miniboss*\n';
+      const favoritMiniBossArray = miniBossList.filter((boss) => popularMiniBossName
+        .some((name) => boss.bossName.toLowerCase().includes(name)));
+
+      // Mencetak hasilnya
+      if (favoritMiniBossArray.length > 0) {
+        favoritMiniBossArray.forEach((item) => {
+          const level = item.level.trim();
+          const boss = item.bossName.trim();
+          const location = item.bossLocation.trim();
+          const exp = item.bossExp.trim();
+          miniBossListString += '--------------------------------------------------------------\n';
+          miniBossListString += `*Boss*: ${boss} ${level}\n*Exp*: ${exp}\n`;
+          miniBossListString += `*Location*: _${location}_\n`;
+        });
+      } else {
+        miniBossListString += 'yntkts\n';
+      }
+    }
+    console.log(bossList);
     const resultString = bossListString + miniBossListString;
-    // console.log(resultString);
+    console.log(resultString);
     return resultString;
+    // const maxResults = 5; // Batasan jumlah hasil yang ingin ditampilkan
+
+    // // Menampilkan hasil dari bossList
+    // let bossListString = '';
+    // bossListString += `_*List leveling ${pesanIsiCommand}* (${expRequired})_\n`;
+    // bossListString += '\n*BOSS LIST* _(0 break)_\n';
+
+    // bossList.slice(0, maxResults).forEach((item) => {
+    //   const level = item.level.trim();
+    //   const boss = item.bossName.trim();
+    //   const location = item.bossLocation.trim();
+    //   const exp = item.bossExp.trim();
+
+    //   bossListString += '--------------------------------------------------------------\n';
+    //   bossListString += `*Boss*: ${boss} ${level}\n*Exp*: ${exp}\n`;
+    //   bossListString += `*Location*: _${location}_\n`;
+    // });
+    // bossListString += '\n';
+    // // Menampilkan hasil dari miniBossList
+    // let miniBossListString = '';
+    // miniBossListString += '*MINI BOSS LIST*\n';
+
+    // await miniBossList.slice(0, maxResults).forEach((item) => {
+    //   const level = item.level.trim();
+    //   const boss = item.bossName.trim();
+    //   const location = item.bossLocation.trim();
+    //   const exp = item.bossExp.trim();
+
+    //   miniBossListString += '--------------------------------------------------------------\n';
+    //   miniBossListString += `*Boss*: ${boss} ${level}\n*Exp*: ${exp}\n`;
+    //   miniBossListString += `*Location*: _${location}_\n`;
+    // });
   } catch (e) {
     console.log(e);
-    return e.message;
+    throw new Error(e.message);
   }
 }
 

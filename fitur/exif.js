@@ -9,7 +9,7 @@ const { downloadMediaMessage } = require('@whiskeysockets/baileys');
 async function imageToWebp(media) {
   const tmpFileOut = path.join(
     tmpdir(),
-    `${Crypto.randomBytes(6).readUIntLE(0, 6).toString(36)}.webp`,
+    `${Crypto.randomBytes(6).readUIntLE(0, 6).toString(36)}.webp`, // kripto untuk random nama ternyata
   );
   const tmpFileIn = path.join(
     tmpdir(),
