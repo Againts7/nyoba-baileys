@@ -7,7 +7,14 @@ const { URL } = require('url');
 const os = require('os');
 const path = require('path');
 
-async function ytmp3(link) {
+async function ytmp3(msgContext) {
+  const msgContex = msgContext;
+  if (msgContext.msg.length < 1) {
+    msgContex.text = 'donlot mp3 dari yt';
+    msgContex.type = 'text';
+    return msgContex;
+  }
+  const link = msgContext.msg;
   const urlObject = new URL(link);
   const id = urlObject.pathname.split('/').pop();
   const tempDir = os.tmpdir(); // Menggunakan direktori sementara
@@ -29,7 +36,10 @@ async function ytmp3(link) {
           reject(error);
         });
     });
-    return tempFilePath;
+    msgContex.type = 'audio';
+    msgContex.url = tempFilePath;
+    msgContex.mimetype = 'audio/mpeg';
+    return msgContex;
   } catch (e) {
     console.log(e);
     throw e;
@@ -38,7 +48,14 @@ async function ytmp3(link) {
 
 // download mp4
 
-async function ytmp4(link) {
+async function ytmp4(msgContext) {
+  const msgContex = msgContext;
+  if (msgContext.msg.length < 1) {
+    msgContex.text = 'donlot mp4 dari yt';
+    msgContex.type = 'text';
+    return msgContex;
+  }
+  const link = msgContext.msg;
   const urlObject = new URL(link);
   const id = urlObject.pathname.split('/').pop();
   const tempDir = os.tmpdir(); // Menggunakan direktori sementara
@@ -60,8 +77,9 @@ async function ytmp4(link) {
           reject(error);
         });
     });
-
-    return toMp4;
+    msgContex.type = 'video';
+    msgContex.url = toMp4;
+    return msgContex;
   } catch (e) {
     console.log(e);
     throw e;

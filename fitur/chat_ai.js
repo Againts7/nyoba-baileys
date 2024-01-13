@@ -1,8 +1,10 @@
 const { Configuration, OpenAIApi } = require('openai');
 
-const API_KEY = 'isi';
+const API_KEY = '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';
 
-async function chatAIhandler(pesanIsiCommand) {
+async function chatAIhandler(msgContext) {
+  const { msg, repliedMsg } = msgContext;
+  const teks = msg || repliedMsg;
   async function ChatGPTRequest(teksKeOpenAI) {
     try {
       const configuration = new Configuration({
@@ -17,14 +19,19 @@ async function chatAIhandler(pesanIsiCommand) {
       return response.data.choices[0].message.content;
     } catch (error) {
       if (error.response) {
-        console.log(`${error} ini error`);
-        console.log(error.response.data);
-        return `${error}`;
+        console.log(` ini error di chat_ai ${error}`);
+        let emsg = '';
+        emsg += `${error}\n${error.response.data.error.message}`;
+        return `${emsg}`;
       }
       throw new Error(`Maaf, sepertinya ada yang error: ${error.message}`);
     }
   }
-  return ChatGPTRequest(pesanIsiCommand);
+  const hasil = await ChatGPTRequest(teks);
+  const msgContex = msgContext;
+  msgContex.text = hasil;
+  msgContex.type = 'text';
+  return msgContex;
 }
 
-module.exports = chatAIhandler;
+module.exports = { chatAIhandler };

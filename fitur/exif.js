@@ -5,6 +5,7 @@ const ff = require('fluent-ffmpeg');
 const webp = require('node-webpmux');
 const path = require('path');
 const { downloadMediaMessage } = require('@whiskeysockets/baileys');
+const { msgReplyMediaProcessing } = require('../msg-formatter');
 
 async function imageToWebp(media) {
   const tmpFileOut = path.join(
@@ -53,13 +54,13 @@ async function videoToWebp(media) {
         '-vcodec',
         'libwebp',
         '-vf',
-        "scale='min(320,iw)':min'(320,ih)':force_original_aspect_ratio=decrease,fps=15, pad=320:320:-1:-1:color=white@0.0, split [a][b]; [a] palettegen=reserve_transparent=on:transparency_color=ffffff [p]; [b][p] paletteuse",
+        "scale='min(320,iw)':min'(320,ih)':force_original_aspect_ratio=decrease,fps=24, pad=320:320:-1:-1:color=white@0.0, split [a][b]; [a] palettegen=reserve_transparent=on:transparency_color=ffffff [p]; [b][p] paletteuse",
         '-loop',
         '0',
         '-ss',
         '00:00:00',
         '-t',
-        '00:00:05',
+        '00:00:07',
         '-preset',
         'default',
         '-an',
@@ -188,6 +189,54 @@ async function buatStikerV(sock, m) {
   }
 }
 
+async function stikerHandler(msgContext) {
+  const {
+    sock, m, isGroup,
+  } = msgContext;
+  const msgContex = msgContext;
+  try {
+    if (msgContext.repliedMsgType === 'conversation') {
+      msgContex.text = 'cuma bisa gambar sama vidio xixixi';
+      msgContex.type = 'text';
+      return msgContex;
+    }
+    if (msgContext.repliedMsgType === 'stickerMessage') {
+      msgContex.text = 'itu udah jadi stiker';
+      msgContex.type = 'text';
+      return msgContex;
+    }
+    if ((msgContext.msgType !== 'imageMessage' && msgContext.msgType !== 'videoMessage') && (msgContext.repliedMsgType !== 'videoMessage' && msgContext.repliedMsgType !== 'imageMessage')) {
+      msgContex.text = 'mana';
+      msgContex.type = 'text';
+      return msgContex;
+    }
+
+    // console.log(msgContext.msgType || msgContext.repliedMsgType);
+
+    if (msgContext.msgType === 'imageMessage' || msgContext.msgType === 'videoMessage' || msgContext.msgType === 'documentMessage') {
+      console.log('ini udah masuk ke buat stiker gambar/video tanpa reply');
+      if (msgContext.msgType === 'imageMessage') {
+        msgContex.url = `${await buatStikerG(sock, m)}`;
+      }
+      msgContex.url = `${await buatStikerV(sock, m)}`;
+    }
+
+    if (msgContext.repliedMsgType === 'imageMessage' || msgContext.repliedMsgType === 'videoMessage') {
+      if (msgContext.repliedMsgType === 'imageMessage') {
+        msgContex.url = `${await buatStikerG(sock, await msgReplyMediaProcessing(m, isGroup))}`;
+      }
+      msgContex.url = `${await buatStikerV(sock, await msgReplyMediaProcessing(m, isGroup))}`;
+    }
+    msgContex.type = 'sticker';
+    return msgContex;
+  } catch (e) {
+    console.log(e);
+    msgContex.text = e;
+    msgContex.type = 'text';
+    return msgContex;
+  }
+}
+
 module.exports = {
-  imageToWebp, videoToWebp, writeExifImg, writeExifVid, buatStikerG, buatStikerV,
+  imageToWebp, videoToWebp, writeExifImg, writeExifVid, buatStikerG, buatStikerV, stikerHandler,
 };

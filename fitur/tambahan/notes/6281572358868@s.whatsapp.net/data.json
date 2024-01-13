@@ -1,0 +1,272 @@
+[
+  {
+    "nama": "@",
+    "konten": "Penggunaan karakter \"@\" dalam nama folder atau nama berkas bisa tergantung pada sistem operasi yang digunakan. Di sebagian besar sistem operasi modern seperti Windows, macOS, dan sebagian besar sistem Linux/Unix, karakter \"@\" umumnya diizinkan dalam nama folder atau berkas. Namun, ada beberapa karakter yang perlu dihindari atau dihindari dalam nama berkas atau folder karena mereka memiliki makna khusus dalam beberapa konteks atau dapat menyebabkan masalah saat bekerja dengan berkas dan folder. Meskipun \"@\" mungkin diizinkan, Anda tetap harus berhati-hati dan memastikan bahwa penggunaan karakter tersebut sesuai dengan aturan sistem operasi yang Anda gunakan dan tidak menimbulkan konflik atau masalah lainnya."
+  },
+  {
+    "nama": "\\s+|\\n+\nJika",
+    "konten": "Jika Anda ingin membagi teks berdasarkan kemungkinan spasi atau karakter newline (`\\n`), Anda dapat menggunakan regex dengan `|` (tanda garis lurus) untuk menangani kedua kemungkinan. Berikut contohnya: ```javascript const text = \"ini adalah teks yang memiliki pemisah spasi atau\\nkarakter newline.\"; // Gunakan regex dengan | (tanda garis lurus) untuk menangani spasi atau newline const hasilPembagian = text.split(/\\s+|\\n+/); console.log(hasilPembagian); ``` Dalam contoh ini, kita menggunakan regex `/\\s+|\\n+/` untuk membagi teks berdasarkan spasi atau karakter newline. Hasilnya akan menjadi array yang berisi potongan-potongan teks yang telah dibagi: ```javascript [ 'ini', 'adalah', 'teks', 'yang', 'memiliki', 'pemisah', 'spasi', 'atau', 'karakter', 'newline.' ] ``` Dengan cara ini, teks akan dibagi berdasarkan spasi atau karakter newline, mengakomodasi kedua kemungkinan yang Anda sebutkan."
+  },
+  {
+    "nama": "apa",
+    "konten": "ini"
+  },
+  {
+    "nama": "enoent",
+    "konten": "Kode `ENOENT` adalah singkatan dari \"Error NO ENTity\" dalam konteks sistem berkas dan pengembangan perangkat lunak. Kode ini mengindikasikan bahwa sistem tidak dapat menemukan entitas (seperti berkas atau folder) yang diminta.\n\nLebih spesifik, `ENOENT` adalah kode kesalahan yang umumnya diberikan oleh sistem operasi atau lingkungan runtime ketika suatu operasi berkas atau direktori tidak berhasil karena entitas yang dimaksud tidak ada di lokasi yang diharapkan.\n\nContoh umum penggunaan kode `ENOENT` adalah ketika Anda mencoba membuka atau mengakses berkas atau folder yang tidak ada di path yang diberikan. Hal ini sering digunakan dalam penanganan kesalahan di berbagai bahasa pemrograman dan lingkungan pengembangan. Jadi, jika Anda melihat pesan kesalahan yang menyertakan kode `ENOENT`, itu berarti bahwa program atau operasi yang Anda lakukan gagal karena entitas yang dimaksud tidak dapat ditemukan."
+  },
+  {
+    "nama": "teks_ini_adalah_contoh",
+    "konten": "Untuk menampilkan sebagian teks dengan keterangan bahwa ada lebih banyak item, Anda dapat menggunakan JavaScript untuk memeriksa panjang teks dan menambahkan pesan \"more items\" jika teksnya terlalu panjang. Berikut contohnya:\n\n```javascript\nconst teksPanjang = \"Ini adalah contoh teks yang terlalu panjang untuk ditampilkan sepenuhnya. Ini adalah contoh teks yang terlalu panjang untuk ditampilkan sepenuhnya. Ini adalah contoh teks yang terlalu panjang untuk ditampilkan sepenuhnya.\";\n\nconst panjangTeksYangDitampilkan = 50; // Jumlah karakter yang ingin ditampilkan\nconst teksDitampilkan = teksPanjang.substring(0, panjangTeksYangDitampilkan);\nconst keteranganSisa = teksPanjang.length > panjangTeksYangDitampilkan ? '... ' + (teksPanjang.length - panjangTeksYangDitampilkan) + ' more items' : '';\n\nconsole.log(teksDitampilkan + keteranganSisa);\n```\n\nDalam contoh di atas, kita memeriksa apakah panjang teks melebihi jumlah karakter yang ingin ditampilkan. Jika ya, kita menambahkan pesan \"more items\" dengan jumlah karakter yang tersisa di akhir teks yang ditampilkan.\n\nHasilnya akan menjadi seperti ini:\n\n```\n\"Ini adalah contoh teks yang terlalu panjang ... 221 more items\"\n```\n\nAnda dapat menyesuaikan `panjangTeksYangDitampilkan` sesuai dengan jumlah karakter yang ingin Anda tampilkan sebelum menambahkan keterangan."
+  },
+  {
+    "nama": "tes",
+    "konten": ""
+  },
+  {
+    "nama": "aiu",
+    "konten": ""
+  },
+  {
+    "nama": "\"tes tanda kutip\" ini adalah tes untuk tanda kutip",
+    "konten": "tes tanda kutip"
+  },
+  {
+    "nama": "\"tes tanda kutip\" ini adalah tes untuk tanda kutip j",
+    "konten": "tes tanda kutip"
+  },
+  {
+    "nama": "aiehj",
+    "konten": ""
+  },
+  {
+    "nama": "tes note",
+    "konten": "List catatan untuk 6281572358868@s.whatsapp.net\n- ```@```\n- ```\\s+|\\n+\nJika```\n- ```apa```\n- ```enoent```\n- ```teks_ini_adalah_contoh```\n- ```tes```\n- ```aiu```\n- ```\"tes tanda kutip\" ini adalah tes untuk tanda kutip```\n- ```\"tes tanda kutip\" ini adalah tes untuk tanda kutip j```\n- ```tes tanda kutip```\n- ```aiehj```\n\nUntuk melihat note gunakan: \n/<nama note>"
+  },
+  {
+    "nama": "cova",
+    "konten": "List catatan untuk 6281572358868@s.whatsapp.net\n- ```@```\n- ```\\s+|\\n+\nJika```\n- ```apa```\n- ```enoent```\n- ```teks_ini_adalah_contoh```\n- ```tes```\n- ```aiu```\n- ```\"tes tanda kutip\" ini adalah tes untuk tanda kutip```\n- ```\"tes tanda kutip\" ini adalah tes untuk tanda kutip j```\n- ```tes tanda kutip```\n- ```aiehj```\n\nUntuk melihat note gunakan: \n/<nama note>"
+  },
+  {
+    "nama": "ini apa",
+    "konten": ""
+  },
+  {
+    "nama": "iui",
+    "konten": ""
+  },
+  {
+    "nama": "uy",
+    "konten": ""
+  },
+  {
+    "nama": "yu",
+    "konten": "List catatan untuk 6281572358868@s.whatsapp.net\n- ```@```\n- ```\\s+|\\n+\nJika```\n- ```apa```\n- ```enoent```\n- ```teks_ini_adalah_contoh```\n- ```tes```\n- ```aiu```\n- ```\"tes tanda kutip\" ini adalah tes untuk tanda kutip```\n- ```\"tes tanda kutip\" ini adalah tes untuk tanda kutip j```\n- ```tes tanda kutip```\n- ```aiehj```\n\nUntuk melihat note gunakan: \n/<nama note>"
+  },
+  {
+    "nama": "gaga",
+    "konten": "List catatan untuk 6281572358868@s.whatsapp.net\n- ```@```\n- ```\\s+|\\n+\nJika```\n- ```apa```\n- ```enoent```\n- ```teks_ini_adalah_contoh```\n- ```tes```\n- ```aiu```\n- ```\"tes tanda kutip\" ini adalah tes untuk tanda kutip```\n- ```\"tes tanda kutip\" ini adalah tes untuk tanda kutip j```\n- ```aiehj```\n- ```tes note```\n- ```cova```\n- ```ini apa```\n- ```iui```\n- ```uy```\n- ```yu```\n- ``````\n\nUntuk melihat note gunakan: \n/<nama note>"
+  },
+  {
+    "nama": "gag",
+    "konten": "List catatan untuk 6281572358868@s.whatsapp.net\n- ```@```\n- ```\\s+|\\n+\nJika```\n- ```apa```\n- ```enoent```\n- ```teks_ini_adalah_contoh```\n- ```tes```\n- ```aiu```\n- ```\"tes tanda kutip\" ini adalah tes untuk tanda kutip```\n- ```\"tes tanda kutip\" ini adalah tes untuk tanda kutip j```\n- ```aiehj```\n- ```tes note```\n- ```cova```\n- ```ini apa```\n- ```iui```\n- ```uy```\n- ```yu```\n- ``````\n- ```gaga```\n\nUntuk melihat note gunakan: \n/<nama note>"
+  },
+  {
+    "nama": "g",
+    "konten": ""
+  },
+  {
+    "nama": "fg",
+    "konten": ""
+  },
+  {
+    "nama": "gh",
+    "konten": "List catatan untuk 6281572358868@s.whatsapp.net\n- ```@```\n- ```\\s+|\\n+\nJika```\n- ```apa```\n- ```enoent```\n- ```teks_ini_adalah_contoh```\n- ```tes```\n- ```aiu```\n- ```\"tes tanda kutip\" ini adalah tes untuk tanda kutip```\n- ```\"tes tanda kutip\" ini adalah tes untuk tanda kutip j```\n- ```aiehj```\n- ```tes note```\n- ```cova```\n- ```ini apa```\n- ```iui```\n- ```uy```\n- ```yu```\n- ```gaga```\n- ```gag```\n\nUntuk melihat note gunakan: \n/<nama note>"
+  },
+  {
+    "nama": "h",
+    "konten": "Baru dari siapa?*\n\nDear f,\nTahun baru sudah dekat nih! Teman-teman dari Teyvat sudah kirimkan ucapan spesial untukmu loh, ayo dilihat~\nTerima kasih kepada para Traveler yang terus mendukung dan menemani kami! Ayo lanjutkan petualangan kita di tahun berikutnya!\n\nBagikan Ucapan yang kamu dapatkan untuk memenangkan hadiah Primogem. Jangan sampai kelewatan ya!\nIkuti event melalui Facebook: https://hoyo.link/69SgFDAL\nIkuti event melalui Twitter (X): https://hoyo.link/d9SgFEAL"
+  },
+  {
+    "nama": "hj",
+    "konten": ".save ,ini apa,\n*Tebak kamu dapat Ucapan Tahun Baru dari siapa?*\n\nDear f,\nTahun baru sudah dekat nih! Teman-teman dari Teyvat sudah kirimkan ucapan spesial untukmu loh, ayo dilihat~\nTerima kasih kepada para Traveler yang terus mendukung dan menemani kami! Ayo lanjutkan petualangan kita di tahun berikutnya!\n\nBagikan Ucapan yang kamu dapatkan untuk memenangkan hadiah Primogem. Jangan sampai kelewatan ya!\nIkuti event melalui Facebook: https://hoyo.link/69SgFDAL\nIkuti event melalui Twitter (X): https://hoyo.link/d9SgFEAL"
+  },
+  {
+    "nama": "vv",
+    "konten": ".save ,ini apa,\n*Tebak kamu dapat Ucapan Tahun Baru dari siapa?*\n\nDear f,\nTahun baru sudah dekat nih! Teman-teman dari Teyvat sudah kirimkan ucapan spesial untukmu loh, ayo dilihat~\nTerima kasih kepada para Traveler yang terus mendukung dan menemani kami! Ayo lanjutkan petualangan kita di tahun berikutnya!\n\nBagikan Ucapan yang kamu dapatkan untuk memenangkan hadiah Primogem. Jangan sampai kelewatan ya!\nIkuti event melalui Facebook: https://hoyo.link/69SgFDAL\nIkuti event melalui Twitter (X): https://hoyo.link/d9SgFEAL"
+  },
+  {
+    "nama": "coba",
+    "konten": ".get enoent"
+  },
+  {
+    "nama": "gb",
+    "text": "",
+    "mediaType": "imageMessage",
+    "url": "./fitur/tambahan/notes/6281572358868@s.whatsapp.net/56a688.undefined"
+  },
+  {
+    "nama": "ghhf",
+    "text": "",
+    "mediaType": "imageMessage",
+    "url": "./fitur/tambahan/notes/6281572358868@s.whatsapp.net/fc6624.undefined"
+  },
+  {
+    "nama": "hjjgd",
+    "text": "",
+    "mediaType": "imageMessage",
+    "url": "./fitur/tambahan/notes/6281572358868@s.whatsapp.net/87c6be.undefined"
+  },
+  {
+    "nama": "dkekeb",
+    "text": "",
+    "mediaType": "imageMessage",
+    "url": "./fitur/tambahan/notes/6281572358868@s.whatsapp.net/342f43.undefined"
+  },
+  {
+    "nama": "ccc",
+    "text": "",
+    "mediaType": "imageMessage",
+    "url": "./fitur/tambahan/notes/6281572358868@s.whatsapp.net/8c9b64.m"
+  },
+  {
+    "nama": "cvb",
+    "text": "",
+    "mediaType": "imageMessage",
+    "url": "./fitur/tambahan/notes/6281572358868@s.whatsapp.net/c389e3.m"
+  },
+  {
+    "nama": "ghjkl",
+    "text": "",
+    "mediaType": "imageMessage",
+    "url": "./fitur/tambahan/notes/6281572358868@s.whatsapp.net/7ffbf7.jpeg"
+  },
+  {
+    "nama": "qiqi",
+    "text": "",
+    "mediaType": "image",
+    "url": "./fitur/tambahan/notes/6281572358868@s.whatsapp.net/73bd49.jpeg"
+  },
+  {
+    "nama": "kururing",
+    "text": "",
+    "mediaType": "audio",
+    "url": "./fitur/tambahan/notes/6281572358868@s.whatsapp.net/f25164.mpeg"
+  },
+  {
+    "nama": "kurukuru",
+    "text": "",
+    "mediaType": "audio",
+    "url": "./fitur/tambahan/notes/6281572358868@s.whatsapp.net/0a036a.mp3"
+  },
+  {
+    "nama": "kuru",
+    "text": "",
+    "mediaType": "audio",
+    "url": "./fitur/tambahan/notes/6281572358868@s.whatsapp.net/6613f2.mp3"
+  },
+  {
+    "nama": "kurung",
+    "konten": "",
+    "mediaType": "audio",
+    "url": "./fitur/tambahan/notes/6281572358868@s.whatsapp.net/d78536.mp3"
+  },
+  {
+    "nama": "ayat",
+    "konten": "",
+    "mediaType": "audio",
+    "url": "./fitur/tambahan/notes/6281572358868@s.whatsapp.net/c2d820.mp3"
+  },
+  {
+    "nama": "kuri",
+    "konten": "",
+    "mediaType": "audio",
+    "url": "./fitur/tambahan/notes/6281572358868@s.whatsapp.net/a9c344.mp3"
+  },
+  {
+    "nama": "aranara",
+    "konten": "",
+    "mediaType": "audio",
+    "url": "./fitur/tambahan/notes/6281572358868@s.whatsapp.net/5e66cc.mp3"
+  },
+  {
+    "nama": "mini",
+    "konten": "awoksjsj",
+    "mediaType": "video",
+    "url": "./fitur/tambahan/notes/6281572358868@s.whatsapp.net/afc8d9.mp4"
+  },
+  {
+    "nama": "banner",
+    "konten": ""
+  },
+  {
+    "nama": "icarus",
+    "konten": ".save icarus",
+    "mediaType": "image",
+    "url": "./fitur/tambahan/notes/6281572358868@s.whatsapp.net/917089.jpeg"
+  },
+  {
+    "nama": "gacha",
+    "konten": ""
+  },
+  {
+    "nama": "coabin",
+    "konten": "",
+    "mediaType": "",
+    "url": ""
+  },
+  {
+    "nama": "cobain",
+    "konten": "",
+    "mediaType": "image",
+    "url": "./fitur/tambahan/notes/6281572358868@s.whatsapp.net/058604.image"
+  },
+  {
+    "nama": "myosotis",
+    "konten": "ini contoh",
+    "mediaType": "image",
+    "url": "./fitur/tambahan/notes/6281572358868@s.whatsapp.net/250fe5.jpeg"
+  },
+  {
+    "nama": "bunga",
+    "konten": "-t",
+    "mediaType": "image",
+    "url": "./fitur/tambahan/notes/6281572358868@s.whatsapp.net/c945ad.jpeg"
+  },
+  {
+    "nama": "flower",
+    "konten": ".save 'myosotis' Myosotis (/ˌmaɪəˈsoʊtɪs/ MY-ə-SOH-tiss[2]) is a genus of flowering plants in the family Boraginaceae. The name comes from the Ancient Greek μυοσωτίς \"mouse's ear\", which the foliage is thought to resemble.[3] In the Northern Hemisphere,[citation needed] they are colloquially known as forget-me-nots or scorpion grasses. Myosotis alpestris is the official flower of Alaska[4] and Dalsland, Sweden. Plants of the genus are commonly confused with Chatham Islands' forget-me-nots, which belong to the related genus Myosotidium.",
+    "mediaType": "image",
+    "url": "./fitur/tambahan/notes/6281572358868@s.whatsapp.net/102f3f.jpeg"
+  },
+  {
+    "nama": "hana",
+    "konten": "",
+    "mediaType": "image",
+    "url": "./fitur/tambahan/notes/6281572358868@s.whatsapp.net/64285e.jpeg"
+  },
+  {
+    "nama": "orang gacha",
+    "konten": "awikwok",
+    "mediaType": "video",
+    "url": "./fitur/tambahan/notes/6281572358868@s.whatsapp.net/d54572.video"
+  },
+  {
+    "nama": "orang",
+    "konten": "",
+    "mediaType": "video",
+    "url": "./fitur/tambahan/notes/6281572358868@s.whatsapp.net/fb7514.mp4"
+  },
+  {
+    "nama": "ini gu",
+    "konten": "",
+    "mediaType": "image",
+    "url": "./fitur/tambahan/notes/6281572358868@s.whatsapp.net//media1559ea.jpeg"
+  },
+  {
+    "nama": "bansos",
+    "konten": "",
+    "mediaType": "image",
+    "url": "./fitur/tambahan/notes/6281572358868@s.whatsapp.net/media/6c643c9409.jpeg"
+  }
+]

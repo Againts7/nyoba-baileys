@@ -44,14 +44,22 @@ async function getLink(url) {
 const os = require('os');
 const path = require('path');
 
-async function download(linkFB) {
+async function download(msgContext) {
+  const linkFB = msgContext.msg;
+  const msgContex = msgContext;
+  if (linkFB.length < 1) {
+    msgContex.text = 'donlot fb';
+    msgContex.type = 'text';
+    return msgContex;
+  }
+
   const { linkVideo, id } = await getLink(linkFB);
   const tempDir = os.tmpdir(); // Menggunakan direktori sementara
   const tempFilePath = path.join(tempDir, `${id}.mp4`);
 
   const file = fs.createWriteStream(tempFilePath);
 
-  return axios({
+  const dl = await axios({
     method: 'get',
     url: linkVideo,
     responseType: 'stream',
@@ -69,6 +77,9 @@ async function download(linkFB) {
       }
     });
   }));
+  msgContex.type = 'video';
+  msgContex.url = dl;
+  return msgContex;
 }
 
 // const folderPath = './download/video';

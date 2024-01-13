@@ -70,18 +70,29 @@ async function fetchData(url) {
   }
 }
 
-async function leveling(pesanIsiCommand) {
+async function leveling(msgContext) {
+  const { msg } = msgContext;
+  const msgContex = msgContext;
+  if (msg.length < 1) {
+    msgContex.text = '.lvling (level)';
+    msgContex.type = 'text';
+    return msgContex;
+  }
   try {
-    const pisah = pesanIsiCommand.toLowerCase().split(' ');
-    if (pesanIsiCommand.startsWith('add-boss') || pesanIsiCommand.startsWith('add-mini')) {
-      if (pesanIsiCommand.startsWith('add-boss')) {
+    const pisah = msg.toLowerCase().split(' ');
+    if (msg.startsWith('add-boss') || msg.startsWith('add-mini')) {
+      if (msg.startsWith('add-boss')) {
         popularBossName.push(pisah[1]);
         fs.writeFileSync('./fitur/tambahan/data-lvling.json', JSON.stringify(dataPilihanLvling));
-        return 'udah';
+        msgContex.text = 'udah';
+        msgContex.type = 'text';
+        return msgContex;
       }
       popularMiniBossName.push(pisah[1]);
       fs.writeFileSync('./fitur/tambahan/data-lvling.json', JSON.stringify(dataPilihanLvling));
-      return 'udah';
+      msgContex.text = 'udah';
+      msgContex.type = 'text';
+      return msgContex;
     }
     const lvl = pisah[0];
     const monsType = pisah[1];
@@ -100,8 +111,8 @@ async function leveling(pesanIsiCommand) {
           const exp = item.bossExp.trim();
 
           miniBossListString += '--------------------------------------------------------------\n';
-          miniBossListString += `*Boss*: ${boss} ${level}\n*Exp*: ${exp}\n`;
-          miniBossListString += `*Location*: _${location}_\n`;
+          miniBossListString += `*🔴*: ${boss} ${level}\n*✨*: ${exp}\n`;
+          miniBossListString += `*📌*: _${location}_\n`;
         });
       }
       if (monsType === 'boss') {
@@ -113,8 +124,8 @@ async function leveling(pesanIsiCommand) {
           const exp = item.bossExp.trim();
 
           bossListString += '--------------------------------------------------------------\n';
-          bossListString += `*Boss*: ${boss} ${level}\n*Exp*: ${exp}\n`;
-          bossListString += `*Location*: _${location}_\n`;
+          bossListString += `*🔴*: ${boss} ${level}\n*✨*: ${exp}\n`;
+          bossListString += `*📌*: _${location}_\n`;
         });
       }
     }
@@ -132,8 +143,8 @@ async function leveling(pesanIsiCommand) {
           const location = item.bossLocation.trim();
           const exp = item.bossExp.trim();
           bossListString += '--------------------------------------------------------------\n';
-          bossListString += `*Boss*: ${boss} ${level}\n*Exp*: ${exp}\n`;
-          bossListString += `*Location*: _${location}_\n`;
+          bossListString += `*🔴*: ${boss} ${level}\n*✨*: ${exp}\n`;
+          bossListString += `*📌*: _${location}_\n`;
         });
       } else {
         bossListString += 'yntkts\n';
@@ -151,8 +162,8 @@ async function leveling(pesanIsiCommand) {
           const location = item.bossLocation.trim();
           const exp = item.bossExp.trim();
           miniBossListString += '--------------------------------------------------------------\n';
-          miniBossListString += `*Boss*: ${boss} ${level}\n*Exp*: ${exp}\n`;
-          miniBossListString += `*Location*: _${location}_\n`;
+          miniBossListString += `*🔴*: ${boss} ${level}\n*✨*: ${exp}\n`;
+          miniBossListString += `*📌*: _${location}_\n`;
         });
       } else {
         miniBossListString += 'yntkts\n';
@@ -161,12 +172,14 @@ async function leveling(pesanIsiCommand) {
     console.log(bossList);
     const resultString = bossListString + miniBossListString;
     console.log(resultString);
-    return resultString;
+    msgContex.text = resultString;
+    msgContex.type = 'text';
+    return msgContex;
     // const maxResults = 5; // Batasan jumlah hasil yang ingin ditampilkan
 
     // // Menampilkan hasil dari bossList
     // let bossListString = '';
-    // bossListString += `_*List leveling ${pesanIsiCommand}* (${expRequired})_\n`;
+    // bossListString += `_*List leveling ${msg}* (${expRequired})_\n`;
     // bossListString += '\n*BOSS LIST* _(0 break)_\n';
 
     // bossList.slice(0, maxResults).forEach((item) => {

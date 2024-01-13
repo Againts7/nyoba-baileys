@@ -171,7 +171,7 @@ function tambahBuff(arg, isPrem) { // .buff || add hp 1234567
           result += `kode ini udah ada: ${duplicateData.join(', ')}\n`;
         }
         if (isSuccess && newData.length > 0) {
-          fs.writeFileSync('./fitur/tambahan/data-buff.json', JSON.stringify(dataBuff));
+          fs.writeFileSync('./fitur/tambahan/data-buff.json', JSON.stringify(dataBuff, null, 2));
           result += `${newData.length} kode telah ditambahkan`;
         }
       }
@@ -343,7 +343,10 @@ function hapusBuff(apa, isPrem) {
 
 //  =================================================  //
 
-function cariBuff(apa, isPrem) {
+function cariBuff(msgContext) {
+  const apa = msgContext.msg;
+  const isPrem = msgContext.isprem;
+  const msgContex = msgContext;
   if (apa.startsWith('add')) {
     return tambahBuff(apa, isPrem);
   }
@@ -444,16 +447,22 @@ function cariBuff(apa, isPrem) {
 
       default:
         console.log('Invalid stat name');
-        return `g ada buff ${apa}`;
+        msgContex.text = `g ada buff ${apa}`;
+        msgContex.type = 'text';
+        return msgContex;
     }
     console.log(dataYGdiinginkan);
     if (dataYGdiinginkan === undefined || dataYGdiinginkan.length === 0) {
-      return 'g ada, tambahin\n.buff add (jenisbuff) (kode)';
+      msgContex.text = 'g ada, tambahin\n.buff add (jenisbuff) (kode)';
+      msgContex.type = 'text';
+      return msgContex;
     }
     if (dataYGdiinginkan.length > 0) {
       result += `silahkan buff ${apa}-nya\n${dataYGdiinginkan}`;
     }
-    return result.trim();
+    msgContex.text = result.trim();
+    msgContex.type = 'text';
+    return msgContex;
   } catch (e) {
     console.log(e);
     return e;
