@@ -16,7 +16,7 @@ function msgReact(sock, jid, m, text) {
 }
 
 function msgReply(msgContext) {
-  // console.log('ini msg repli kontek\n', msgContext);
+  // console.log('ini msg repli kontek\n'.bgRed, msgContext);
   const {
     sock, jid, m, text, type, url, mimetype, filename,
   } = msgContext;
@@ -59,16 +59,15 @@ function msgReply(msgContext) {
       }
     }
 
-    console.log('Ini balas:\n', `Tipe: ${type}\n`, `Teks: ${(balas.text?.length > 70 ? `${balas.text.substring(0, 75)}.....` : balas.text) || url}`);
+    console.log('Ini balas:\n', `Tipe: ${type}\n`, `Teks: ${(balas.text?.length > 50 ? `${balas.text.substring(0, 50)}.....` : balas.text) || url}`);
     // console.log(balas);
     sock.sendMessage(
       jid,
       balas,
       { quoted: m },
-    );
-    setTimeout(() => {
+    ).then(setTimeout(() => {
       msgReact(sock, jid, m, '');
-    }, 2000);
+    }, 2000));
     console.log('\n####### (selesai) #######\n'.random.italic, '\n========================================================================'.america);
   } catch (e) {
     msgReact(sock, jid, m, '⚠️');
@@ -93,7 +92,7 @@ function msgReplyMediaProcessing(m, isGroup) {
 
 async function downloadMedia(msgContext) {
   const { sock, m } = msgContext;
-  return downloadMediaMessage(
+  const mm = await downloadMediaMessage(
     m,
     'buffer',
     { },
@@ -101,6 +100,7 @@ async function downloadMedia(msgContext) {
       reuploadRequest: sock.updateMediaMessage,
     },
   );
+  return mm;
 }
 
 function generateRandomString(length) {
@@ -122,6 +122,48 @@ function spasi(text) {
   return ' '.repeat(process.stdout.columns - text.length) + text;
 }
 
+function getWaktu() {
+  const date = new Date();
+  const jam = date.getHours();
+  const menit = date.getMinutes();
+  const detik = date.getSeconds();
+  const hari = date.getDate();
+  const bulan = (date.getMonth() + 1);
+  const tahun = date.getFullYear();
+  const waktu = {
+    waktu: `${jam}:${menit}:${detik}`,
+    tanggal: `${hari}-${bulan.toLocaleString('id-ID', { month: 'long' })}-${tahun}`,
+  };
+  return waktu;
+}
+
+const fitMimetype = {
+  'image/jpeg': 'imageMessage',
+  'image/webp': 'imageMessage',
+  'image/png': 'imageMessage',
+  'image/gif': 'videoMessage',
+  'video/mp4': 'videoMessage',
+  'audio/mp4': 'audioMessage',
+  'audio/ogg': 'audioMessage',
+  'audio/mpeg': 'audioMessage',
+};
+
+const mm = (uwu) => {
+  if (uwu.includes('gif') || uwu.includes('video')) return 'videoMessage';
+  if (uwu.includes('image')) return 'imageMessage';
+  if (uwu.includes('audio')) return 'audioMessage';
+  return 'documentMessage';
+};
+
 module.exports = {
-  msgReact, msgReply, msgReplyMediaProcessing, downloadMedia, generateRandomString, isAdmin, spasi,
+  msgReact,
+  msgReply,
+  msgReplyMediaProcessing,
+  downloadMedia,
+  generateRandomString,
+  isAdmin,
+  spasi,
+  getWaktu,
+  fitMimetype,
+  mm,
 };

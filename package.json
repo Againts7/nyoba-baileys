@@ -13,10 +13,10 @@
   "dependencies": {
     "@adiwajshing/keyed-db": "^0.2.4",
     "@hapi/boom": "^10.0.1",
-    "@whiskeysockets/baileys": "^6.1.0",
+    "@whiskeysockets/baileys": "^6.5.0",
     "@xaviabot/fb-downloader": "^1.0.14",
     "axios": "^1.4.0",
-    "chalk": "^5.3.0",
+    "bing-translate-api": "^3.0.0",
     "cheerio": "^1.0.0-rc.12",
     "colors": "^1.4.0",
     "fb-info-video": "^1.0.2",
@@ -25,10 +25,11 @@
     "jsdom": "^22.1.0",
     "link-preview-js": "^3.0.5",
     "mkdirp": "^3.0.1",
-    "node-webpmux": "^3.1.7",
-    "nodemon": "^2.0.22",
-    "openai": "^3.2.1",
+    "node-webpmux": "^3.2.0",
+    "nodemon": "^3.0.2",
+    "openai": "^4.24.7",
     "qrcode-terminal": "^0.12.0",
+    "textifyimage": "^1.0.3",
     "ytdl-core": "^4.11.4"
   },
   "devDependencies": {

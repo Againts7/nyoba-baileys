@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 const fs = require('fs');
 const { tmpdir } = require('os');
 const Crypto = require('crypto');
@@ -5,7 +6,7 @@ const ff = require('fluent-ffmpeg');
 const webp = require('node-webpmux');
 const path = require('path');
 const { downloadMediaMessage } = require('@whiskeysockets/baileys');
-const { msgReplyMediaProcessing } = require('../msg-formatter');
+const { msgReplyMediaProcessing, fitMimetype, mm } = require('../msg-formatter');
 
 async function imageToWebp(media) {
   const tmpFileOut = path.join(
@@ -46,30 +47,43 @@ async function videoToWebp(media) {
     `${Crypto.randomBytes(6).readUIntLE(0, 6).toString(36)}.mp4`,
   );
   fs.writeFileSync(tmpFileIn, media);
+
   await new Promise((resolve, reject) => {
     ff(tmpFileIn)
-      .on('error', reject)
-      .on('end', () => resolve(true))
-      .addOutputOptions([
-        '-vcodec',
-        'libwebp',
-        '-vf',
-        "scale='min(320,iw)':min'(320,ih)':force_original_aspect_ratio=decrease,fps=24, pad=320:320:-1:-1:color=white@0.0, split [a][b]; [a] palettegen=reserve_transparent=on:transparency_color=ffffff [p]; [b][p] paletteuse",
-        '-loop',
-        '0',
-        '-ss',
-        '00:00:00',
-        '-t',
-        '00:00:07',
-        '-preset',
-        'default',
-        '-an',
-        '-vsync',
-        '0',
-      ])
-      .toFormat('webp')
-      .save(tmpFileOut);
+      .addOutputOption(['-pix_fmt yuva420p',
+        '-vf scale=320x320:force_original_aspect_ratio=decrease,pad=320:320:(ow-iw)/2:(oh-ih)/2:color=0x00000000', '-loop 0', '-r 24'])
+      .save(tmpFileOut)
+      .on('end', () => {
+        resolve(true);
+      })
+      .on('error', reject);
   });
+
+  // await new Promise((resolve, reject) => {
+  //   ff(tmpFileIn)
+  //     .on('error', reject)
+  //     .on('end', () => resolve(true))
+  //     .addOutputOptions([
+  //       '-vcodec',
+  //       'libwebp',
+  //       '-vf',
+  // eslint-disable-next-line max-len
+  //       "scale='min(320,iw)':min'(320,ih)':force_original_aspect_ratio=decrease,fps=15, pad=320:320:-1:-1:color=white@0.0, split [a][b]; [a] palettegen=reserve_transparent=on:transparency_color=ffffff [p]; [b][p] paletteuse",
+  //       '-loop',
+  //       '0',
+  //       '-ss',
+  //       '00:00:00',
+  //       '-t',
+  //       '00:00:07',
+  //       '-preset',
+  //       'default',
+  //       '-an',
+  //       '-vsync',
+  //       '0',
+  //     ])
+  //     .toFormat('webp')
+  //     .save(tmpFileOut);
+  // });
   const buff = fs.readFileSync(tmpFileOut);
   fs.unlinkSync(tmpFileOut);
   fs.unlinkSync(tmpFileIn);
@@ -191,49 +205,56 @@ async function buatStikerV(sock, m) {
 
 async function stikerHandler(msgContext) {
   const {
-    sock, m, isGroup,
+    sock, m, isGroup, repliedMsgType, msgType, hasMedia, isReply, mimetype,
   } = msgContext;
-  const msgContex = msgContext;
+  const balasan = msgContext;
   try {
-    if (msgContext.repliedMsgType === 'conversation') {
-      msgContex.text = 'cuma bisa gambar sama vidio xixixi';
-      msgContex.type = 'text';
-      return msgContex;
+    if (repliedMsgType === 'conversation' || repliedMsgType === 'audioMessage' || msgType === 'audioMessage') {
+      balasan.text = 'cuma bisa gambar sama vidio xixixi';
+      balasan.type = 'text';
+      return balasan;
     }
-    if (msgContext.repliedMsgType === 'stickerMessage') {
-      msgContex.text = 'itu udah jadi stiker';
-      msgContex.type = 'text';
-      return msgContex;
+    if (repliedMsgType === 'stickerMessage') {
+      balasan.text = 'itu udah jadi stiker';
+      balasan.type = 'text';
+      return balasan;
     }
-    if ((msgContext.msgType !== 'imageMessage' && msgContext.msgType !== 'videoMessage') && (msgContext.repliedMsgType !== 'videoMessage' && msgContext.repliedMsgType !== 'imageMessage')) {
-      msgContex.text = 'mana';
-      msgContex.type = 'text';
-      return msgContex;
+    if (!hasMedia) {
+      balasan.text = 'mana';
+      balasan.type = 'text';
+      return balasan;
     }
 
-    // console.log(msgContext.msgType || msgContext.repliedMsgType);
+    // console.log(msgType || repliedMsgType);
 
-    if (msgContext.msgType === 'imageMessage' || msgContext.msgType === 'videoMessage' || msgContext.msgType === 'documentMessage') {
-      console.log('ini udah masuk ke buat stiker gambar/video tanpa reply');
-      if (msgContext.msgType === 'imageMessage') {
-        msgContex.url = `${await buatStikerG(sock, m)}`;
+    if (hasMedia && !isReply) {
+      const type = mm(mimetype);
+      // console.log('ini type: ', type);
+      console.log('Memproses media...');
+      if (type === 'imageMessage') {
+        balasan.url = `${await buatStikerG(sock, m)}`;
       }
-      msgContex.url = `${await buatStikerV(sock, m)}`;
+      if (type === 'videoMessage') {
+        balasan.url = `${await buatStikerV(sock, m)}`;
+      }
     }
 
-    if (msgContext.repliedMsgType === 'imageMessage' || msgContext.repliedMsgType === 'videoMessage') {
-      if (msgContext.repliedMsgType === 'imageMessage') {
-        msgContex.url = `${await buatStikerG(sock, await msgReplyMediaProcessing(m, isGroup))}`;
+    if (hasMedia && isReply) {
+      const type = mm(mimetype);
+      if (type === 'imageMessage') {
+        balasan.url = `${await buatStikerG(sock, await msgReplyMediaProcessing(m, isGroup))}`;
       }
-      msgContex.url = `${await buatStikerV(sock, await msgReplyMediaProcessing(m, isGroup))}`;
+      if (type === 'videoMessage') {
+        balasan.url = `${await buatStikerV(sock, await msgReplyMediaProcessing(m, isGroup))}`;
+      }
     }
-    msgContex.type = 'sticker';
-    return msgContex;
+    balasan.type = 'sticker';
+    return balasan;
   } catch (e) {
     console.log(e);
-    msgContex.text = e;
-    msgContex.type = 'text';
-    return msgContex;
+    balasan.text = e;
+    balasan.type = 'text';
+    return balasan;
   }
 }
 

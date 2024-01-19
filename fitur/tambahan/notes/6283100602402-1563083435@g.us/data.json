@@ -140,5 +140,21 @@
     "mediaType": "image",
     "url": "./fitur/tambahan/notes/6283100602402-1563083435@g.us/media/3404d_12-1-2024.jpeg",
     "mimetype": "image/jpeg"
+  },
+  {
+    "nama": "stiker",
+    "konten": "",
+    "filename": "2dd09_13-1-2024.jpeg",
+    "mediaType": "image",
+    "url": "./fitur/tambahan/notes/6283100602402-1563083435@g.us/media/2dd09_13-1-2024.jpeg",
+    "mimetype": "image/jpeg"
+  },
+  {
+    "nama": "stok",
+    "konten": "",
+    "filename": "STK-20200921-WA0012.webp",
+    "mediaType": "document",
+    "url": "./fitur/tambahan/notes/6283100602402-1563083435@g.us/media/0556e_13-1-2024.webp",
+    "mimetype": "image/webp"
   }
 ]

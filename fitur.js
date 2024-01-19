@@ -6,6 +6,8 @@ const cariBuff = require('./fitur/listbuff');
 const {
   getNote, saveNote, getAllNote, deleteNote,
 } = require('./fitur/notes');
+const textify = require('./fitur/textify');
+const tr = require('./fitur/translate');
 const { ytmp3, ytmp4 } = require('./fitur/ytdl');
 const { msgReply, msgReact } = require('./msg-formatter');
 
@@ -54,6 +56,14 @@ const fitur = [
     cmd: /^[.]delete$/i,
     fun: deleteNote,
   },
+  {
+    cmd: /^[.]tr$/i,
+    fun: tr,
+  },
+  {
+    cmd: /^[.]text$/i,
+    fun: textify,
+  },
   // Tambahkan fitur lain jika diperlukan
 ];
 
@@ -77,9 +87,10 @@ async function cariDanJalankanFitur(msgContext) {
       if (fiturDitemukan) {
         msgReact(msgContext.sock, msgContext.jid, msgContext.m, '⏳');
         const result = await fiturDitemukan.fun(msgContext);
+        msgReply(result);
         setTimeout(async () => {
-          await msgReply(result);
-        }, 2000);
+        }, 1000);
+        return;
       }
     } else {
       console.log(`Fitur dengan cmd '${cmdMain}' tidak ditemukan.`);
